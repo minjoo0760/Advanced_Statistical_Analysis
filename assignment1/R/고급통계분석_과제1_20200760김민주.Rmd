@@ -1,0 +1,5 @@
+---
+title: "고급통계분석_과제1_20200760김민주"
+output: html_document
+---
+
