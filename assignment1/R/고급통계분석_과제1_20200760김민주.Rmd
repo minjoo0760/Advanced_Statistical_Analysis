@@ -1,5 +1,77 @@
 ---
-title: "고급통계분석_과제1_20200760김민주"
-output: html_document
+title: "Advanced Statistical Analysis <Assignment 1>"
+author: "Minjoo Kim (Sungshin Women's University)"
+date: "25.10.21"
+output:
+  beamer_presentation:
+    colortheme: seahorse
+  slidy_presentation: default
+mainfont: NanumGothic
+header-includes: \usepackage{kotex}
+urlcolor: blue
+linkcolor: blue
 ---
+
+# Problem 1
+
+## Problem 1 - (a)
+- 위 데이터를 data/ 경로에 csv로 저장하는 코드를 작성하시오.
+
+```{r}
+# 예제 데이터 생성
+set.seed(1)
+n = 200
+x = seq(0, 1, length.out = n)
+y = sin(2*pi*x) + rnorm(n, sd = 0.15)
+
+# (a) data/ 경로에 csv로 저장
+data1 <- data.frame(x = x, y = y)
+getwd()
+write.csv(data1, "./assignment1/data/problem1_data.csv")
+```
+
+## Problem 1 - (b)
+- R/ 폴더 아래 R 스크립트를 작성하여, 위에서 저장한 데이터를 불러오고, ggplot2를 바탕으로 산점도와 회귀곡선
+적합을 시각화하시오 (ggplot2의goem_smooth()에서 적절한method 선택)
+
+```{r}
+data2 <- read.csv("./assignment1/data/problem1_data.csv")
+
+library(ggplot2)
+plot1<- ggplot(data=data2, aes(x=x, y=y))+
+  geom_point(size=2)+
+  geom_smooth(color='red',size=2)
+plot1
+```
+
+## Problem 1 - (c)~(d)
+
+- ggsave() 함수를 이용하여 작성한 플랏을 plots/폴더에 저장하는 코드를 작성하시오
+```{r}
+ggsave(path = "./assignment1/plots", filename = "problem1_plot.png")
+```
+
+-  R에서 Git 버전 컨트롤을 사용하여 commit하고 본인의 GitHub에 올린 후 GitHub저장소 링크를 같이 제출하시오.
+  - https://github.com/minjoo0760/Advanced_Statistical_Analysis
+
+
+# Problem 2
+
+
+
+# Problem 3
+
+
+
+# Problem 4
+
+
+
+# Problem 5
+
+
+
+# Problem 6
+
+
 
