@@ -1,0 +1,132 @@
+---
+title: "ADA_assignment2"
+format: pdf
+editor: visual
+---
+# pdf 변환을 위한 환경 변수 수정
+
+```{r}
+Sys.getenv("TEMP")
+Sys.getenv("TMP")
+```
+- 경로에 한글명이 들어가면 오류
+- TEMP/TMP 경로를 강제로 C:/Temp 로 고정
+- Windows 검색 → 환경 변수 편집 -> 시스템 속성 -> 고급 -> 환경변수(N)
+- 사용자 환경 변/시스템 환경 변수에서 TEMP/TMP 모두 C:\Temp로 변경함 
+
+# Problem 1
+
+## (a)
+
+## (b)
+
+## (c)
+
+## (d)
+
+## (e)
+
+# Problem 2
+
+## (a)
+
+```{r}
+calculate_kernel <- function(x, rho)
+{
+  n <- nrow(x)
+  k <- matrix(0, n, n)
+  
+  for (i in 1:n)
+    for (j in 1:n)
+      k[i, j] <- exp(-rho * sum((x[i, ] - x[j, ])^2))
+  
+  return(k)
+}
+```
+
+## (b)
+
+```{r}
+library(Rcpp)
+
+cppFunction("
+NumericMatrix calculate_kernel_rcpp(NumericMatrix x, double rho) {
+  int n = x.nrow();
+  int p = x.ncol();
+  
+  NumericMatrix k(n, n);
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      
+      double dist = 0.0;
+      for (int t = 0; t < p; t++) {
+        double diff = x(i, t) - x(j, t);
+        dist += diff * diff;
+      }
+      
+      k(i, j) = exp(-rho * dist);
+    }
+  }
+  
+  return k;
+}
+")
+
+```
+
+## (c)
+
+```{r}
+library(microbenchmark)
+
+set.seed(1)
+n <- 1000
+p <- 10
+rho <- 0.5
+x <- matrix(runif(n * p), nrow = n, ncol = p)
+
+# 속도 비교
+time_result <- microbenchmark(
+  R = calculate_kernel(x, rho),
+  Rcpp = calculate_kernel_rcpp(x, rho),
+  times = 50
+)
+
+time_result
+```
+
+## (d)
+
+```{r}
+time_table <- summary(time_result)[, c("expr", "mean", "median", "min", "max")]
+time_table
+```
+
+# Problem 3
+
+## (a)
+```{r}
+set.seed(1)
+n = 150
+X = matrix(runif(n,-1, 1), ncol = 1)
+ftrue = function(x) sin(2*pi*x) + 0.5*cos(8*pi*x)
+y = ftrue(X[,1]) + rnorm(n, sd = 0.1)
+```
+
+## (b)
+
+## (c)
+
+# Problem 4
+
+## (a)
+
+## (b)
+
+## (c)
+
+## (d)
+
+
+
